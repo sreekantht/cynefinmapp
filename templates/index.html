@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cynefin Map</title>
+		
+		<!-- CSS -->
+		<link rel="stylesheet" href="/static/css_style.css" />
+		
+		<!-- CSS FOR NOMAL DISPLAY DEVICES -->
+		<!--<link rel="stylesheet" media="screen and (min-device-width: 321px)" href="/static/css_application.css" />-->
+		
+		<!-- CSS FOR NOMAL DISPLAY DEVICES -->
+		<!--<link rel="stylesheet" media="screen and (max-device-width: 320px)" href="/static/css_application-mp.css" />-->
+		
+		
+		
+		<!-- JQuery -->
+		<script src="/static/js_jquery.js"></script>
+		<script src="/static/js_jquery.tools.js"></script>
+		
+		<!-- JQueryMobile -->
+		<script src="/static/js_jquery.mobile.js"></script>
+		
+		<!-- Google Maps api -->
+		<script src="http://www.google.com/maps/api/js?libraries=geometry,places&v=3.3&sensor=false"></script>
+		
+		<!-- Socket -->
+		<script src="/socket.io.js"></script>
+		
+		
+		<!-- Utilidades -->
+		<!-- tod_do add to application manager or something -->
+		<script src="/static/js_utils.js"></script>
+		
+		<!--algoritmo reducción de puntos en polilineas-->
+		<!-- tod_do add to application manager or something -->
+		<!--<script type="text/javascript" src="/static/js_DPR.js"></script>-->
+				
+		<!--Google Maps elements-->
+		<!--<script type="text/javascript" src="/static/js_googleMaps/infobubble.js"></script>-->
+		<script type="text/javascript" src="/static/js_infowindow.js"></script>
+		<script type="text/javascript" src="/static/js_info_bubble.js"></script>
+		<script type="text/javascript" src="/static/js_info_window_chat.js"></script>
+		<script type="text/javascript" src="/static/js_polyline.js"></script>
+		<script type="text/javascript" src="/static/js_marker.js"></script>
+		<script type="text/javascript" src="/static/js_user_marker.js"></script>
+		<script type="text/javascript" src="/static/js_map.js"></script>
+		<script type="text/javascript" src="/static/js_canvas.js"></script>
+	
+		<!--Application Models-->
+		<script type="text/javascript" src="/static/js_application.js"></script>
+		<script type="text/javascript" src="/static/js_application_manager.js"></script>
+		<script type="text/javascript" src="/static/js_screen_manager.js"></script>
+		<script type="text/javascript" src="/static/js_conection_manager.js"></script>
+		<script type="text/javascript" src="/static/js_user_manager.js"></script>
+		<script type="text/javascript" src="/static/js_geo.js"></script>
+		<script type="text/javascript" src="/static/js_room_container.js"></script>
+		<script type="text/javascript" src="/static/js_room.js"></script>
+		<script type="text/javascript" src="/static/js_session.js"></script>
+		<script type="text/javascript" src="/static/js_workspace.js"></script>
+		
+		<!--Dinamic form || is used for the infowindows-->
+		<script type="text/javascript" src="/static/js_jquery.form.js"></script>
+		
+		<!-- JSON -->
+		<script src='/static/js_jquery.json-2.3.js'></script>
+	
+	
+	</head>
+	
+	<body>
+	   <div id="searchBoxDiv">
+	   <!--<img src="./static/img_search.png" width="26" height="26" />-->
+	   <input id="searchBox" /></div>
+		<div id="wrapper" >
+		
+		<div id="awarenessEditando"> Otro usuario está editando</div>
+		<!-- TOOLBaR -->
+				<div id="toolbar">	
+			
+                <div id="toolbarOver">
+                
+                    <div id="overlayOptions">
+                        <ul class="overlayOptions">
+                            <li id="deleteOverlay" ><img src=""/static/img_overlayOptionsDelete.png" title="Delete"/></li>
+                            <li id="duplicateOverlay" ><img src="/static/img_overlayOptionsDuplicate.png" title="Duplicate" /></li>
+                            <li id="selectOtherOverlay" ><img src="/static/img_overlayOptionsAdd.png" title="Select Other" /></li>
+                            <li id="deselectallOverlays" style="display:none;" ><img src="/static/img_overlayOptionsDeselect.png" title="Select Other" /></li>
+                            <li id="infowindowOverlay" ><img src=""/static/img_overlayOptionsInfowindow.png" title="add Infowindow" /></li>
+                        </ul>
+                    </div>
+		  
+                    <div id="overlayMove">
+                        <ul class="overlayOptions">
+                            <li id="moveUp" ><img src="./static/img_arrowUp.png" title="Delete"/></li>
+                            <li id="moveLeft" ><img src="./static/img_arrowLeft.png" title="Duplicate" /></li>
+                            <li id="moveRight" ><img src="./static/img_arrowRight.png" title="Move" /></li>
+                            <li id="moveDown" ><img src="./static/img_arrowDown.png" title="Undo" /></li>
+                        </ul>
+                    </div>
+                </div>
+			
+				<div id="toolbarLeft">
+				    <div id=scenario>
+				        <select id=tipo_de_escenario >
+				            <option value=known>known</option>
+				            <option value=knownable>knownable</option>
+				            <option value=complex>complex</option>
+				            <option value=chaos>chaos</option>
+				        </select>
+				    </div>
+				    <!--
+				    <ul id=scenario >
+				        <li><img id='known' src="/static/img_moveToolDeselected.png" /></li>
+				        <li><img id='knownable' src="/static/img_moveToolDeselected.png" /></li>
+				        <li><img id='complex' src="/static/img_moveToolDeselected.png" /></li>
+				        <li><img id='chaos' src="/static/img_moveToolDeselected.png" /></li>
+				    </ul>
+				    -->
+				    
+				    <div style="clear: both;"></div>
+			
+					<ul id="listTool" class="dropdownMenu">
+						<li><img id="moveTool"    src="./static/img_moveToolSelected.png"      width="50" height="50" /></li>
+						<li><img id="drawTool"    src="./static/img_drawToolDeselected.png"    width="50" height="50" /></li>
+						<li><img id="markerTool"  src="./static/img_markerToolDeselected.png"  width="50" height="50" /></li>
+					</ul>
+				
+					<ul id="listSketchColor" class="dropdownMenu">
+						<li><img id="sketchColorBlue"  src="./static/img_colorBlueSelected.png"     width="50" height="50" /></li>
+						<li><img id="sketchColorGreen" src="./static/img_colorGreenDeselected.png"  width="50" height="50" /></li>
+						<li><img id="sketchColorRed"   src="./static/img_colorRedDeselected.png"    width="50" height="50" /></li>
+					</ul>
+						
+					<ul id="listSketchThickness" class="dropdownMenu">
+						<li><img id="sketchThicknessThin"    src="./static/img_thicknessThinDeselected.png"  width="50" height="50" /></li>
+						<li><img id="sketchThicknessMedium"  src="./static/img_thicknessMediumSelected.png"  width="50" height="50" /></li>
+						<li><img id="sketchThicknessThick"   src="./static/img_thicknessThickDeselected.png"   width="50" height="50" /></li>
+					</ul>
+					
+					
+					
+					<ul id="toolsPreviewLeft" class="previewMenuLeft">
+						<li id="selectedToolPreview"><img            class="previewLeft" src ="./static/img_moveToolOpenPreview.png"         width="50" height="37" /></li>
+						<li id="selectedSketchColorPreview"><img      class="previewLeft" src ="./static/img_colorBlueOpenPreview.png"        width="50" height="37" /></li>
+						<li id="selectedSketchThicknessPreview"><img  class="previewLeft" src ="./static/img_thicknessMediumOpenPreview.png"  width="50" height="37" /></li>
+						<!--<li id="zoomPreview"><img                     class="previewLeft" src ="./static/img_zoomOpenPreview.png"             width="50" height="37" /></li> -->
+						<li id="zoomIn"><img    src="./static/img_zoomIn.png"  width="37" height="37"  style="margin-left: 15px;"/></li>
+						<li id="zoomOut"><img   src="./static/img_zoomOut.png"  width="37" height="37" style="margin-left: 15px;"/></li>
+						<li><img id="getCurrentPosition"    src="./static/img_getCurrentPosition.png"  width="37" height="37" style="margin-left: 15px;"/></li>
+						<!--<li id="getCurrentPositionPreview"><img       class="previewLeft" src ="./static/img_getCurrentPositionOpenPreview.png"    width="50" height="37" /></li>-->
+					</ul>
+				
+				</div>
+				
+				<div id="toolbar_streetview">
+				
+				    <ul id="list_streetview_select" class="dropdownMenu">
+						<li><img id="save_view"  src="./static/img_moveToolSelected.png"  width="50" height="50" /></li>
+					</ul>
+					
+					<ul id="list_streetview_edit" class="dropdownMenu">
+						<li ><img id="draw"        src="./static/img_drawToolSelected.png"       width="50" height="50" /></li>
+						<li><img id="eraser"        src="./static/img_eraser_deselected.png"       width="50" height="50" /></li>
+						<li ><img id="save_canvas"        src="./static/img_save_canvas_deselected.png"       width="50" height="50" /></li>
+					</ul>
+					
+					
+					
+					<ul id="list_streetview_color" class="dropdownMenu">
+						<li><img id="streetview_line_color_blue"  src="./static/img_colorBlueSelected.png"     width="50" height="50" /></li>
+						<li><img id="streetview_line_color_green" src="./static/img_colorGreenDeselected.png"  width="50" height="50" /></li>
+						<li><img id="streetview_line_color_red"   src="./static/img_colorRedDeselected.png"    width="50" height="50" /></li>
+					</ul>
+						
+					<ul id="list_streetview_line_thickness" class="dropdownMenu">
+						<li><img id="streetview_line_thickness_thin"    src="./static/img_thicknessThinDeselected.png"  width="50" height="50" /></li>
+						<li><img id="streetview_line_thickness_medium"  src="./static/img_thicknessMediumSelected.png"  width="50" height="50" /></li>
+						<li><img id="streetview_line_thickness_thick"   src="./static/img_thicknessThickDeselected.png"   width="50" height="50" /></li>
+					</ul>
+					
+					<ul id="tools_streetview_preview" class="preview_menu_streetview">
+						<li id="selected_streetview_tool"><img            class="previewLeft" src ="./static/img_moveToolOpenPreview.png"         width="50" height="37" /></li>
+						<li id="selected_streetview_sketch_color" style="display: none;"><img      class="previewLeft" src ="./static/img_colorBlueOpenPreview.png"      width="50" height="37" /></li>
+						<li id="selected_streetview_sketch_thickness" style="display: none;"><img  class="previewLeft" src ="./static/img_thicknessMediumOpenPreview.png"  width="50" height="37" /></li>
+						<li id="selected_streetview_eraser_thickness" style="display: none;"><img  class="previewLeft" src ="./static/img_thicknessMediumOpenPreview.png"  width="50" height="37" /></li>
+						<!--<li id="zoomPreview"><img                     class="previewLeft" src ="./static/img_zoomOpenPreview.png"             width="50" height="37" /></li> -->
+						<li id="select_image"><img    src="./static/img_landscape_selected.png"  width="37" height="37"  style="margin-left: 15px;"/></li>
+						<!--<li id="save_canvas" style="display: none;"><img   src="./static/img_save_canvas.png"  width="37" height="37" style="margin-left: 15px;"/></li>-->
+						<!--<li id="getCurrentPositionPreview"><img       class="previewLeft" src ="./static/img_getCurrentPositionOpenPreview.png"    width="50" height="37" /></li>-->
+					</ul>
+				</div>
+				
+				
+				<div id = "toolbarRight">
+				
+					<ul id="toolsPreviewRight" class="previewMenuRight">
+						<li><img id="mapsRoomPreview"   class="previewRight" src=""/static/img_mapsOpenPreview.png"    width="50"  height="37" /></li>
+						<li><img id="usersRoomPreview"  class="previewRight" src=""/static/img_usersOpenPreview.png"  width="50"  height="37" /></li>
+					</ul>
+					
+					<div id="rooms">
+						
+					</div>
+					
+                        <div id="divRoommateContainerF" class="space">
+                            <div class="roommateF">
+                                <div id="roommate_g" class="roommateIconBase roommateIconadd"></div>
+                                <span class="roommateName">User a</span>
+                            </div>
+                            <div class="roommateF">
+                                <div id="roommate_g" class="roommateIconBase roommateIconadd"></div>
+                                <span class="roommateName">User B</span>
+                            </div>
+                            <div class="roommateF">
+                                <div id="roommate_g" class="roommateIconBase roommateIconadd"></div>
+                                <span class="roommateName">User C</span>
+                            </div>
+                            <div class="roommateF">
+                                <div id="roommate_g" class="roommateIconBase roommateIconadd"></div>
+                                <span class="roommateName">User C</span>
+                            </div>
+                            <div class="roommateF">
+                                <div id="roommate_g" class="roommateIconBase roommateIconadd"></div>
+                                <span class="roommateName">User D</span>
+                            </div>
+				        </div>
+					
+				</div>
+				
+			</div>
+		<!-- END TOOLBAR -->
+
+			<div id="workspace" data-role="content">
+				<div id="layer">
+					<div id="map"></div>
+				</div>
+	
+				<!--<div id="sketches"></div>-->
+			</div>
+			
+		
+		<div id="boxes">
+			<div id="dialog1" class="window">
+			  MapSketcher
+				<div class="d-header">
+					<input type="text" id = "name" value="name" onclick="this.value=''"/><br/>
+					<input type="text" id = "username" value="username" onclick="this.value=''"/> 
+					<select id = "userType" style = "display:none">
+						<option value="follower">Follower</option>
+						<option value="leader">Leader</option>
+					</select>   
+				</div>
+				<div class="d-blank"></div>
+				<div class="close"><input
+			type="button" value="Login" title="Login" /></div>
+			</div>
+		
+			<!-- SESSIONS -->
+			<div id="sessions">
+			<div id=log>
+			    user id: 
+			</div
+			
+			<div id=crear_sesion>
+			
+			    <form id=form_crear_sesioin>
+			        Crear sesion: <input name=nombre_session id=id_sesion>
+			        <input type=button id=boton_crear_sesion value="crear sesion" >
+			    </form>
+			    
+			    <br />
+			    Abrir sesion:<br />
+			    <!-- to_do ADD SESSIONS -->
+			      <a id="" class=abrir_sesion href='#' ></a>
+			    <!-- END ADD SESSIONS -->
+			</div>
+			
+			</div>
+		</div>
+	
+	</body>
+</html> 
